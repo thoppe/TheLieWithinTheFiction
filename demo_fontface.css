@@ -1,0 +1,10 @@
+
+    @font-face {
+       font-family: "Helvetica";
+       src:url(fonts/helvetica-bold.otf);
+    }
+    @font-face {
+       font-family: "Helvetica_modified";
+       src:url(fonts/helvetica-bold_modified.woff2);
+    }
+    

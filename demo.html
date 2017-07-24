@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="styles/fontmap.css">
-
-    <style>  
-@font-face {
-    font-family: "orgFont";
-    src:url("fonts/helvetica-bold.otf");
-}
-
-@font-face {
-    font-family: "modifiedFont";
-    src:url("fonts/helvetica-bold_modified.woff2");
-}
-
-h1 {
-font-family:"orgFont";
-font-size:600%;
-}
-
-.modified{
-    color:#CD765B;
-    font-family:"modifiedFont";
-}
-    </style>
-  </head>
-<body>
-
+ <head>
+  <link href="demo_fontface.css" rel="stylesheet"/>
+  <link href="styles/fontmap.css" rel="stylesheet"/>
+  <style>
+   h1 {
+      font-family:"Helvetica";
+      font-size:600%;
+      }
+      .modified{
+      color:#CD765B;
+      font-family:"Helvetica_modified";
+      }
+  </style>
+ </head>
+ <body>
   <div class="abscenter">
-    <h1>The quick brown</h1>
-    <h1 class="modified">The quick brown</h1>
+   <h1>
+    The quick brown
+   </h1>
+   <h1 class="modified">
+    The quick brown
+   </h1>
   </div>
-
-</body>
+ </body>
 </html>
-
