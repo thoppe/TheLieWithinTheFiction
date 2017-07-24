@@ -1,15 +1,19 @@
 body {
-    background-color:#B6D539;
+    background-color:#FFEDA8;
 }
 
 div.abscenter {
     background:red;
     position:absolute;
-    background-color:#0D8F69;
-    color:#B6D539;
+    background-color:#92D0C1;
+    color:#307183;
     top:50%;
     left:50%;
-    padding:15px;
+    padding-top:1%;
+    padding-bottom:1%;
+    padding-left:2%;
+    padding-right:2%;
+    
     -ms-transform: translateX(-50%) translateY(-50%);
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
