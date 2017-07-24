@@ -6,10 +6,11 @@ from backports import tempfile
 import brotli
 import fontTools
 from fontTools import ttLib
+from tqdm import tqdm
 
-def clean_font(soup, table, font):
-    #print font.getReverseGlyphMap()
+def clean_font(soup, table):
 
+    
     special_mapping = {
         " " : "space",
     }
@@ -31,28 +32,31 @@ def clean_font(soup, table, font):
     for item in soup.find('GPOS').find_all('SecondGlyph', {"value":True}):
         keep_names.append(item['value'])
 
-    for g in soup.find_all("GlyphID"):
+
+    glyphID = soup.find("GlyphOrder").find_all
+    hmtx = soup.find("hmtx").find_all
+    GDEF = soup.find("GDEF").find_all
+    CFF  = soup.find("CFF").find_all
+    cmap = soup.find("cmap").find_all
+
+    ITR = list(soup.find_all("GlyphID"))
+
+    print "Removing unused glyphs"
+    
+    for g in tqdm(ITR):
+        
         name = g['name']
         if name in keep_names:
             continue
 
-        sf = soup.find_all
-        print "Removing", name
-        
-        [x.decompose() for x in sf('CharString', {"name":name})]
-        [x.decompose() for x in sf('ClassDef', {"glyph":name})]
-        [x.decompose() for x in sf('mtx', {"name":name})]
-        [x.decompose() for x in sf('GlyphID', {"name":name})]
-        [x.decompose() for x in sf('map', {"name":name})]
-        
-
-    names = ['one','two','three','four','five','six','seven','eight',
-             'nine']
+        [x.decompose() for x in CFF('CharString', {"name":name})]
+        [x.decompose() for x in cmap('map', {"name":name})]
+        [x.decompose() for x in GDEF('ClassDef', {"glyph":name})]
+        [x.decompose() for x in hmtx('mtx', {"name":name})]
+        [x.decompose() for x in glyphID('GlyphID', {"name":name})]
     
 
 def modify_font(f_otf, f_woff2, table):
-
-    font = ttLib.TTFont(f_otf)
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -85,7 +89,7 @@ def modify_font(f_otf, f_woff2, table):
             contents = soup.find('CharString', {"name":val}).text
             salad.find('CharString', {"name":key}).string = contents
 
-        clean_font(salad, table, font)
+        clean_font(salad, table)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))
