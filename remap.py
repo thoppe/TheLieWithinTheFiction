@@ -5,8 +5,54 @@ from backports import tempfile
 
 import brotli
 import fontTools
+from fontTools import ttLib
+
+def clean_font(soup, table, font):
+    #print font.getReverseGlyphMap()
+
+    special_mapping = {
+        " " : "space",
+    }
+
+    keep_names = table.keys()
+
+    # Keep the special defined names
+    for key in table:
+        if key in special_mapping:
+            keep_names.append( special_mapping[key] )
+
+    keep_names.append('.notdef')
+
+    
+    # Keep chars with kern information
+    for item in soup.find('GPOS').find_all('Glyph', {"value":True}):
+        keep_names.append(item['value'])
+
+    for item in soup.find('GPOS').find_all('SecondGlyph', {"value":True}):
+        keep_names.append(item['value'])
+
+    for g in soup.find_all("GlyphID"):
+        name = g['name']
+        if name in keep_names:
+            continue
+
+        sf = soup.find_all
+        print "Removing", name
+        
+        [x.decompose() for x in sf('CharString', {"name":name})]
+        [x.decompose() for x in sf('ClassDef', {"glyph":name})]
+        [x.decompose() for x in sf('mtx', {"name":name})]
+        [x.decompose() for x in sf('GlyphID', {"name":name})]
+        [x.decompose() for x in sf('map', {"name":name})]
+        
+
+    names = ['one','two','three','four','five','six','seven','eight',
+             'nine']
+    
 
 def modify_font(f_otf, f_woff2, table):
+
+    font = ttLib.TTFont(f_otf)
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -23,8 +69,10 @@ def modify_font(f_otf, f_woff2, table):
 
         # Swap the values
         for key, val in table.iteritems():
+            if key == val:
+                continue
 
-            print "Swapping key/val", key, val
+            #print "Swapping key/val", key, val
 
             # Swap the correct width, lsb
             mtx_key = salad.find('mtx', {"name":key})
@@ -37,14 +85,15 @@ def modify_font(f_otf, f_woff2, table):
             contents = soup.find('CharString', {"name":val}).text
             salad.find('CharString', {"name":key}).string = contents
 
+        clean_font(salad, table, font)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))
 
         cmd = 'ttx --flavor woff2 --recalc-timestamp -b {}'.format(f_xml2)
         subprocess.call(cmd, shell=True)
-
         f_out = f_xml2.replace('.ttx', '.woff2')
+        
         shutil.move(f_out,os.path.join(org_dir, f_woff2))
         #os.system('bash')
         
@@ -83,10 +132,13 @@ if __name__ == "__main__":
 
 
     table = {}
-    s1 = 'Thequickbrown'
-    s2 = 'Onejazzypizza'
+    s1 = 'The quick brown'
+    s2 = 'One jazzy pizza'
+    #s1 = 'The'
+    #s2 = 'One'
+    
     for a1,a2 in zip(s1,s2):
-        if a1 == a2: continue
+        #if a1 == a2: continue
     
         if a1 in table:
             print "WARNING!: Remapped key twice", a1, a2, table[a1]
