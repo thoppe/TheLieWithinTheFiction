@@ -1,6 +1,9 @@
 import collections
 import bs4
+import joblib
 from remap_font import modify_font
+
+THREADS = -1
 
 class translate_tables(object):
 
@@ -67,34 +70,39 @@ class translate_tables(object):
         return soup
 
     def _get_fontname(self, key):
-        return self.f_font.replace('.otf','_m{}.woff2'.format(key))
+        return self.f_font.replace('.otf','_m{}.otf'.format(key))
 
     def build_fonts(self):
         # We could build the fonts in parallel...
-        for key in self.tables:
-            modify_font(self.f_font,
-                        self._get_fontname(key),
-                        self.tables[key])
+        ITR = self.tables
+        func = joblib.delayed(modify_font)
 
+        with joblib.Parallel(THREADS) as MP:
+            MP(func(self.f_font,
+                    self._get_fontname(key),
+                    self.tables[key]) for key in ITR)
+        
     def build_CSS(self, ):
-        template = '''
+        template1 = '''
            @font-face {
            font-family: "%s";
            src:url(%s); \n}
         '''.strip()
 
+        template2 = '''
+           font%s {font-family: "%s";}
+        '''.strip()
+
         css = []
-        css.append(template%(self.name, self.f_font))
+        css.append(template1%(self.name, self.f_font))
 
         for key in self.tables:
             namex = self.name+'_'+str(key)
-            css.append(template%(namex, self._get_fontname(key)))
+            css.append(template1%(namex, self._get_fontname(key)))
+            css.append(template2%(key, namex))
             
-        css = '\n'.join(css)
-        return css
-
-        
-            
+        css = '\n\n'.join(css)
+        return css           
         
 
 if __name__ == "__main__":

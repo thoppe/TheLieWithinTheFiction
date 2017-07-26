@@ -1,10 +1,25 @@
+@font-face {
+           font-family: "Helvetica";
+           src:url(fonts/helvetica-bold.otf); 
+}
 
-    @font-face {
-       font-family: "Helvetica";
-       src:url(fonts/helvetica-bold.otf);
-    }
-    @font-face {
-       font-family: "Helvetica_modified";
-       src:url(fonts/helvetica-bold_modified.woff2);
-    }
-    
+@font-face {
+           font-family: "Helvetica_1";
+           src:url(fonts/helvetica-bold_m1.otf); 
+}
+
+font1 {font-family: "Helvetica_1";}
+
+@font-face {
+           font-family: "Helvetica_2";
+           src:url(fonts/helvetica-bold_m2.otf); 
+}
+
+font2 {font-family: "Helvetica_2";}
+
+@font-face {
+           font-family: "Helvetica_3";
+           src:url(fonts/helvetica-bold_m3.otf); 
+}
+
+font3 {font-family: "Helvetica_3";}

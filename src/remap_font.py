@@ -57,7 +57,7 @@ def clean_font(soup, table):
 
     # Remove meta information (todo?)
 
-def modify_font(f_otf, f_woff2, table):
+def modify_font(f_otf, f_otf2, table, clean=True):
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -77,6 +77,12 @@ def modify_font(f_otf, f_woff2, table):
             if key == val:
                 continue
 
+            if key == ' ':
+                key = 'space'
+            if val == ' ':
+                val = 'space'
+
+
             #print "Swapping key/val", key, val
 
             # Swap the correct width, lsb
@@ -89,24 +95,25 @@ def modify_font(f_otf, f_woff2, table):
             # Swap the CharString
             contents = soup.find('CharString', {"name":val}).text
             salad.find('CharString', {"name":key}).string = contents
-
-        clean_font(salad, table)
+            
+        if clean:
+            clean_font(salad, table)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))
 
-        cmd = 'ttx -q --flavor woff2 --recalc-timestamp -b {}'.format(f_xml2)
+        cmd = 'ttx -q --recalc-timestamp -b {}'.format(f_xml2)
         subprocess.call(cmd, shell=True)
-        f_out = f_xml2.replace('.ttx', '.woff2')
+        f_out = f_xml2.replace('.ttx', '.otf')
         
-        shutil.move(f_out,os.path.join(org_dir, f_woff2))
+        shutil.move(f_out,os.path.join(org_dir, f_otf2))
         #os.system('bash')
         
     os.chdir(org_dir)
 
 if __name__ == "__main__":
     f_otf  = 'fonts/helvetica-bold.otf'
-    f_woff2 = f_otf.replace('.otf','_modified.woff2')
+    f_oft2 = f_otf.replace('.otf','_modified.otf')
 
     table = {}
     s1 = 'The quick brown'
@@ -119,4 +126,4 @@ if __name__ == "__main__":
 
     print "Modification table", table
 
-    modify_font(f_otf, f_woff2, table)
+    modify_font(f_otf, f_oft2, table)
