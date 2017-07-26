@@ -1,11 +1,15 @@
 import collections
 import bs4
+from remap_font import modify_font
 
 class translate_tables(object):
 
-    def __init__(self):
+    def __init__(self, f_font, name):
         self.tables = collections.defaultdict(dict)
         self.idx = 0
+        self.font_tables = None
+        self.name = name
+        self.f_font = f_font
 
     def new_table(self):
         self.idx += 1
@@ -61,9 +65,36 @@ class translate_tables(object):
 
         soup.append(current_tag)
         return soup
-    
 
+    def _get_fontname(self, key):
+        return self.f_font.replace('.otf','_m{}.woff2'.format(key))
 
+    def build_fonts(self):
+        # We could build the fonts in parallel...
+        for key in self.tables:
+            modify_font(self.f_font,
+                        self._get_fontname(key),
+                        self.tables[key])
+
+    def build_CSS(self, ):
+        template = '''
+           @font-face {
+           font-family: "%s";
+           src:url(%s); \n}
+        '''.strip()
+
+        css = []
+        css.append(template%(self.name, self.f_font))
+
+        for key in self.tables:
+            namex = self.name+'_'+str(key)
+            css.append(template%(namex, self._get_fontname(key)))
+            
+        css = '\n'.join(css)
+        return css
+
+        
+            
         
 
 if __name__ == "__main__":
@@ -73,10 +104,18 @@ if __name__ == "__main__":
     #hidden_text  = "abcabc"
     #visible_text = "xyzxxx"
 
-    hidden_text  = "1234"
+    hidden_text  = "xyzk"
     visible_text = "abcc"
 
-    T = translate_tables()
-    print T.encode(hidden_text, visible_text)
+    f_font = 'fonts/helvetica-bold.otf'
+    name = "Helvetica"
+
+    T = translate_tables(f_font, name)
+    html = T.encode(hidden_text, visible_text)
+
+    #T.build_fonts()
+    css = T.build_CSS()
+    print html
+    print css
 
 
