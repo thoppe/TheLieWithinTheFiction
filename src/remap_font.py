@@ -120,8 +120,12 @@ def modify_font(f_otf, f_otf2, table, clean=True):
                 raise KeyError("font missing character '%s'"%val)
             
             # Swap the correct width, lsb
-            mtx_key['width'] = mtx_val['width']
-            mtx_key['lsb'] = mtx_val['lsb']
+            mtx_key['width'] = int(mtx_val['width'])
+            mtx_key['lsb'] = int(mtx_val['lsb'])
+
+            if key == 'nonbreakingspace':
+                mtx_key['width'] = int(mtx_key['width']*1.15)
+                
 
             # Swap the CharString
             contents = soup_CFF.find('CharString', {"name":val}).text
