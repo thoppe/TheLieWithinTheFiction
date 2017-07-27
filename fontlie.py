@@ -22,8 +22,20 @@ for block in soup.find_all("", search_dict):
 
     T = translate_tables(f_otf, font_family)
 
-    text_hidden = text_hidden.replace(' ', unichr(160))
-    text_visible = text_visible.replace(' ', unichr(160))
+    # Add nonbreaking spaces for overlap, spaces for overlap
+    th, tv = [], []
+    for a1, a2 in zip(text_hidden, text_visible):
+        if a1 == a2 == ' ':
+            a1 = a2 = ' '
+        elif a1 == ' ':
+            a1 = unichr(160)
+        elif a2 == ' ':
+            a2 = unichr(160)
+        th.append(a1)
+        tv.append(a2)
+
+    text_hidden  = ''.join(th)
+    text_visible = ''.join(tv)
 
     html = T.encode(text_visible, text_hidden)
     block.insert(0, html)
@@ -36,7 +48,6 @@ for block in soup.find_all("", search_dict):
     with open(f_css, 'w') as FOUT:
         FOUT.write(T.build_CSS())
     
-
     # Add the header block
     style_tag = soup.new_tag('link',
                              rel='stylesheet',
