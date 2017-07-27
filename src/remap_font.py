@@ -8,11 +8,12 @@ import fontTools
 from fontTools import ttLib
 from tqdm import tqdm
 
+special_mapping = {
+    " " : "space",
+    unichr(160) : "nonbreakingspace",
+}
+
 def clean_font(soup, table):
-    
-    special_mapping = {
-        " " : "space",
-    }
 
     keep_names = table.keys()
 
@@ -59,6 +60,14 @@ def clean_font(soup, table):
 
 def modify_font(f_otf, f_otf2, table, clean=True):
 
+    # Add the space proxy to the table
+    for key,val in table.items():
+        if val == ' ':
+            table[key] = 'nonbreakingspace'
+
+    #print table
+    #exit()
+
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
         os.chdir(temp_dir)
@@ -77,13 +86,10 @@ def modify_font(f_otf, f_otf2, table, clean=True):
             if key == val:
                 continue
 
-            if key == ' ':
-                key = 'space'
-            if val == ' ':
-                val = 'space'
-
-
-            #print "Swapping key/val", key, val
+            if key in special_mapping:
+                key = special_mapping[key]
+            if val in special_mapping:
+                val = special_mapping[val]
 
             # Swap the correct width, lsb
             mtx_key = salad.find('mtx', {"name":key})

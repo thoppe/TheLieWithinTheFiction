@@ -3,8 +3,6 @@ import bs4
 import joblib
 from remap_font import modify_font
 
-THREADS = -1
-
 class translate_tables(object):
 
     def __init__(self, f_font, name):
@@ -63,8 +61,13 @@ class translate_tables(object):
 
             if current_tag.string is None:
                 current_tag.string = ''
-                
+
             current_tag.string += a1
+
+            #if a1 != ' ':
+            #    current_tag.string += a1
+            #else:
+            #    current_tag.string += u'\xa0'
 
         soup.append(current_tag)
         return soup
@@ -72,7 +75,7 @@ class translate_tables(object):
     def _get_fontname(self, key):
         return self.f_font.replace('.otf','_m{}.otf'.format(key))
 
-    def build_fonts(self):
+    def build_fonts(self, THREADS=-1, clean=True):
         # We could build the fonts in parallel...
         ITR = self.tables
         func = joblib.delayed(modify_font)
@@ -80,7 +83,8 @@ class translate_tables(object):
         with joblib.Parallel(THREADS) as MP:
             MP(func(self.f_font,
                     self._get_fontname(key),
-                    self.tables[key]) for key in ITR)
+                    self.tables[key],
+                    clean) for key in ITR)
         
     def build_CSS(self, ):
         template1 = '''

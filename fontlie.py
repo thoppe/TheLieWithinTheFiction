@@ -1,7 +1,7 @@
 import bs4, os
 from src.multimap_code import translate_tables
 
-f_html  = "source.html"
+f_html  = "test.html"
 f_html2 = "demo.html"
 
 with open(f_html) as FIN:
@@ -22,12 +22,14 @@ for block in soup.find_all("", search_dict):
 
     T = translate_tables(f_otf, font_family)
 
+    text_hidden = text_hidden.replace(' ', unichr(160))
+    text_visible = text_visible.replace(' ', unichr(160))
+
     html = T.encode(text_visible, text_hidden)
-    #html = T.encode(text_hidden, text_visible)
-    
     block.insert(0, html)
 
-    T.build_fonts()
+    #T.build_fonts()
+    T.build_fonts(THREADS=1,clean=False)
     
     # Build the font-face remapping
     f_css = f_html2.replace('.html', '_fontface.css')
@@ -42,7 +44,8 @@ for block in soup.find_all("", search_dict):
     soup.find('head').insert(0, style_tag)
 
     with open(f_html2,'w') as FOUT:
-        FOUT.write(unicode(soup))
+        html_text = soup.encode_contents(formatter='html')
+        FOUT.write(html_text)
 
     print "Output written to", f_html2
     
