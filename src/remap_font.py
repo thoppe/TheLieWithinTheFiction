@@ -23,7 +23,6 @@ def clean_font(soup, table):
             keep_names.append( special_mapping[key] )
 
     keep_names.append('.notdef')
-
     
     # Keep chars with kern information
     for item in soup.find('GPOS').find_all('Glyph', {"value":True}):
@@ -60,13 +59,17 @@ def clean_font(soup, table):
 
 def modify_font(f_otf, f_otf2, table, clean=True):
 
+    font = ttLib.TTFont(f_otf)
+    
+    charmaps = {}
+    for key, vals in font['cmap'].buildReversed().items():
+        for val in vals:
+            charmaps[unichr(val)] = key
+
     # Add the space proxy to the table
     for key,val in table.items():
         if val == ' ':
             table[key] = 'nonbreakingspace'
-
-    #print table
-    #exit()
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -81,6 +84,12 @@ def modify_font(f_otf, f_otf2, table, clean=True):
             soup = bs4.BeautifulSoup(FIN.read(), 'xml')
             salad = copy(soup)
 
+        salad_mtx = salad.find('hmtx')
+        soup_mtx  = soup.find('hmtx')
+
+        salad_CFF = salad.find('CFF')
+        soup_CFF  = soup.find('CFF')
+
         # Swap the values
         for key, val in table.iteritems():
             if key == val:
@@ -90,17 +99,33 @@ def modify_font(f_otf, f_otf2, table, clean=True):
                 key = special_mapping[key]
             if val in special_mapping:
                 val = special_mapping[val]
+            
+            mtx_key = salad_mtx.find('mtx', {"name":key})
+            mtx_val = soup_mtx.find('mtx', {"name":val})
 
+            # If keys are missing, need to use value from charmap
+            if mtx_key is None:
+                key = charmaps[key]
+                mtx_key = salad_mtx.find('mtx', {"name":key})
+
+            if mtx_val is None:
+                val = charmaps[val]
+                mtx_val = salad_mtx.find('mtx', {"name":val})
+
+            # If keys are still missing, we don't know what the eff this is
+            if mtx_key is None:
+                raise KeyError("font missing character '%s'"%key)
+
+            if mtx_val is None:
+                raise KeyError("font missing character '%s'"%val)
+            
             # Swap the correct width, lsb
-            mtx_key = salad.find('mtx', {"name":key})
-            mtx_val = soup.find('mtx', {"name":val})
-
             mtx_key['width'] = mtx_val['width']
             mtx_key['lsb'] = mtx_val['lsb']
 
             # Swap the CharString
-            contents = soup.find('CharString', {"name":val}).text
-            salad.find('CharString', {"name":key}).string = contents
+            contents = soup_CFF.find('CharString', {"name":val}).text
+            salad_CFF.find('CharString', {"name":key}).string = contents
             
         if clean:
             clean_font(salad, table)

@@ -20,8 +20,12 @@ for block in soup.find_all("", search_dict):
     del block['data-font']
     assert(os.path.exists(f_otf))
 
-    T = translate_tables(f_otf, font_family)
-
+    # Add spaces to pad out string
+    #text_hidden  += ' '*max(0, len(text_visible) - len(text_hidden))
+    #text_visible += ' '*max(0, len(text_hidden)  - len(text_visible))
+    #print text_hidden,'***'
+    #print text_visible,'***' 
+    
     # Add nonbreaking spaces for overlap, spaces for overlap
     th, tv = [], []
     for a1, a2 in zip(text_hidden, text_visible):
@@ -34,13 +38,15 @@ for block in soup.find_all("", search_dict):
         th.append(a1)
         tv.append(a2)
 
+    T = translate_tables(f_otf, font_family)
+
     text_hidden  = ''.join(th)
     text_visible = ''.join(tv)
 
     html = T.encode(text_visible, text_hidden)
     block.insert(0, html)
 
-    #T.build_fonts()
+    #T.build_fonts(clean=False)
     T.build_fonts(THREADS=1,clean=False)
     
     # Build the font-face remapping
