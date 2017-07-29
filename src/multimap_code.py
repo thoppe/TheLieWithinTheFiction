@@ -59,15 +59,13 @@ class translate_tables(object):
                 current_tag = soup.new_tag("font{}".format(key))
                 current_idx = key
 
-            if current_tag.string is None:
+            if current_tag and current_tag.string is None:
                 current_tag.string = ''
 
-            current_tag.string += a1
-            
-            #if a1 != ' ':
-            #    current_tag.string += a1
-            #else:
-            #    current_tag.string += u'\xa0'
+            if current_tag is not None:
+                current_tag.string += a1
+            else:
+                soup.append(a1)
 
         soup.append(current_tag)
         return soup
