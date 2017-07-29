@@ -63,7 +63,7 @@ class translate_tables(object):
                 current_tag.string = ''
 
             current_tag.string += a1
-
+            
             #if a1 != ' ':
             #    current_tag.string += a1
             #else:

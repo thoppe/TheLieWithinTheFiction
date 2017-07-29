@@ -42,8 +42,8 @@ for block in soup.find_all("", search_dict):
     html = T.encode(text_visible, text_hidden)
     block.insert(0, html)
 
-    T.build_fonts(clean=True)
-    #T.build_fonts(THREADS=1,clean=False)
+    T.build_fonts()
+    #T.build_fonts(THREADS=1,clean=True)
     
     # Build the font-face remapping
     f_css = f_html2.replace('.html', '_fontface.css')

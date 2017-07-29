@@ -33,6 +33,7 @@ def clean_font(soup, table, charmaps):
         "CFF"  : ("CharString","name"),
         "cmap" : ("map","name"),
     }
+
     
     NAMES = [g['name'] for g in soup.find_all("GlyphID")]
     print "Removing unused glyphs"
@@ -40,8 +41,9 @@ def clean_font(soup, table, charmaps):
     for key, (element, attr) in tqdm(clean_tables.items()):
 
         block = soup.find(key)
+        
+        # If font lacks element just continue
         if block is None:
-            print "Font lacks", key
             continue
 
         for name in NAMES:
@@ -50,7 +52,16 @@ def clean_font(soup, table, charmaps):
 
             for item in block.find_all(element, {attr:name}):
                 item.decompose()
-            
+                
+    # Just nuke the kern and ligature tables
+    nuke_tables = ['GPOS', 'GSUB','kern']
+    for t in nuke_tables:
+        try:
+            soup.find(t).decompose()
+        except AttributeError:
+            continue
+
+
     '''
 
         # We could clean the kerning information too

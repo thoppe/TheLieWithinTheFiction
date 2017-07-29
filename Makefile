@@ -4,4 +4,4 @@ view:
 	xdg-open demo.html
 
 clean:
-	rm -vf fonts/helvetica-bold_*  demo.html demo_fontface.css
+	rm -vf fonts/*_m?.otf  demo.html *_fontface.css	
