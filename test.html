@@ -10,6 +10,21 @@
       .modified{
       color:#CD765B;
       }
+      
+textarea[type="text"] {
+  display: block;
+  margin: 0;
+  width: 100%;
+      font-family: "Butler";
+      font-size: 100%;      
+      appearance: none;
+      box-shadow: none;
+      border-radius: none;
+}
+textarea[type="text"]:focus {
+  outline: none;
+}
+
     </style>
   </head>
 <body>
@@ -19,13 +34,17 @@
     <h1
       data-font="fonts/Butler_Medium.otf"
       data-font-family="Butler"
-      data-hidden-text ="One flew over the Cuckoo's nest"
-      data-visible-text="A thousand ships  launched all "
+
+      data-visible-text="My Captain does not answer, his  lips are  pale and still,"
+      data-hidden-text= "My father  does not feel my arm, he has no pulse nor will,"
 
       class="modified"/>
-    <h1>flow</h1>
+    
+    <h1>
+      <textarea rows="2" placeholder=" ... " type="text"></textarea>
+    </h1>
+
   </div>
-      data-font="fonts/Butler_Medium.otf"
 
 </body>
 </html>
