@@ -7,6 +7,6 @@ http://thoppe.github.io/TheLieWithinTheFiction/demo.html
 - [x] Basic font remap (proof of concept)
 - [x] Demo webpage
 - [x] minify fonts
-- [x] multi character (in progress)
-- [x] fallback fonts
-- [ ] handle spaces (word boundaries)
+- [x] multi character
+- [x] handle spaces (word boundaries)
+- [x] handle newlines
