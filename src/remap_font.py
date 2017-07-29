@@ -8,20 +8,13 @@ import fontTools
 from fontTools import ttLib
 from tqdm import tqdm
 
-special_mapping = {
-    " " : "space",
-    unichr(160) : "nonbreakingspace",
-}
 
-def clean_font(soup, table):
+def clean_font(soup, table, charmaps):
 
-    keep_names = table.keys()
+    # Keep all characters in the table, find their real names
+    keep_names = [charmaps[key] for key in table.keys()]
 
-    # Keep the special defined names
-    for key in table:
-        if key in special_mapping:
-            keep_names.append( special_mapping[key] )
-
+    # Always save the .notdef
     keep_names.append('.notdef')
     
     # Keep chars with kern information
@@ -30,7 +23,6 @@ def clean_font(soup, table):
 
     for item in soup.find('GPOS').find_all('SecondGlyph', {"value":True}):
         keep_names.append(item['value'])
-
 
     glyphID = soup.find("GlyphOrder").find_all
     hmtx = soup.find("hmtx").find_all
@@ -66,10 +58,13 @@ def modify_font(f_otf, f_otf2, table, clean=True):
         for val in vals:
             charmaps[unichr(val)] = key
 
+    # nonbreakingspace is not always the same thing
+    nbsp_name = charmaps[unichr(160)]
+
     # Add the space proxy to the table
     for key,val in table.items():
         if val == ' ':
-            table[key] = 'nonbreakingspace'
+            table[key] = nbsp_name
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -95,10 +90,8 @@ def modify_font(f_otf, f_otf2, table, clean=True):
             if key == val:
                 continue
 
-            if key in special_mapping:
-                key = special_mapping[key]
-            if val in special_mapping:
-                val = special_mapping[val]
+            if val in unichr(160):
+                val = nbsp_name
             
             mtx_key = salad_mtx.find('mtx', {"name":key})
             mtx_val = soup_mtx.find('mtx', {"name":val})
@@ -123,16 +116,15 @@ def modify_font(f_otf, f_otf2, table, clean=True):
             mtx_key['width'] = int(mtx_val['width'])
             mtx_key['lsb'] = int(mtx_val['lsb'])
 
-            if key == 'nonbreakingspace':
-                mtx_key['width'] = int(mtx_key['width']*1.15)
-                
+            if key == nbsp_name:
+                mtx_key['width'] = int(mtx_key['width']*1.15) 
 
             # Swap the CharString
             contents = soup_CFF.find('CharString', {"name":val}).text
             salad_CFF.find('CharString', {"name":key}).string = contents
             
         if clean:
-            clean_font(salad, table)
+            clean_font(salad, table, charmaps)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))

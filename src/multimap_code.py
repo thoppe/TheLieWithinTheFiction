@@ -49,7 +49,7 @@ class translate_tables(object):
     
         for a1,a2 in zip(visible_text, hidden_text):
             key = self(a1,a2)           
-            print a1, a2, key
+            #print a1, a2, key
 
             if key != current_idx:
                 # Create a new tag
