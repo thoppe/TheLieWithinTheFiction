@@ -1,5 +1,5 @@
 import bs4
-import os, subprocess, shutil
+import os, subprocess, shutil, itertools
 from copy import copy
 from backports import tempfile
 
@@ -16,6 +16,7 @@ def clean_font(soup, table, charmaps):
 
     # Always save the .notdef
     keep_names.append('.notdef')
+    keep_names.append('NULL')
     
     # Keep chars with kern information
     for item in soup.find('GPOS').find_all('Glyph', {"value":True}):
@@ -24,33 +25,41 @@ def clean_font(soup, table, charmaps):
     for item in soup.find('GPOS').find_all('SecondGlyph', {"value":True}):
         keep_names.append(item['value'])
 
-    glyphID = soup.find("GlyphOrder").find_all
-    hmtx = soup.find("hmtx").find_all
-    GDEF = soup.find("GDEF").find_all
-    CFF  = soup.find("CFF").find_all
-    cmap = soup.find("cmap").find_all
-
-    ITR = list(soup.find_all("GlyphID"))
-
-    print "Removing unused glyphs"
+    # Names of the cleaning tables
+    clean_tables = {
+        "GlyphOrder" : ("GlyphID", "name"),
+        "hmtx" : ("mtx","name"),
+        "GDEF" : ("ClassDef","glyph"),
+        "CFF"  : ("CharString","name"),
+        "cmap" : ("map","name"),
+    }
     
-    for g in tqdm(ITR):
-        
-        name = g['name']
-        if name in keep_names:
+    NAMES = [g['name'] for g in soup.find_all("GlyphID")]
+    print "Removing unused glyphs"
+
+    for key, (element, attr) in tqdm(clean_tables.items()):
+
+        block = soup.find(key)
+        if block is None:
+            print "Font lacks", key
             continue
 
-        [x.decompose() for x in CFF('CharString', {"name":name})]
-        [x.decompose() for x in cmap('map', {"name":name})]
-        [x.decompose() for x in GDEF('ClassDef', {"glyph":name})]
-        [x.decompose() for x in hmtx('mtx', {"name":name})]
-        [x.decompose() for x in glyphID('GlyphID', {"name":name})]
+        for name in NAMES:
+            if name in keep_names:
+                continue
 
+            for item in block.find_all(element, {attr:name}):
+                item.decompose()
+            
+    '''
+
+        # We could clean the kerning information too
 
     # Remove meta information (todo?)
+    '''
 
-def modify_font(f_otf, f_otf2, table, clean=True):
-
+def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False):
+    print table
     font = ttLib.TTFont(f_otf)
     
     charmaps = {}
@@ -65,6 +74,7 @@ def modify_font(f_otf, f_otf2, table, clean=True):
     for key,val in table.items():
         if val == ' ':
             table[key] = nbsp_name
+
 
     org_dir = os.getcwd()
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -85,14 +95,18 @@ def modify_font(f_otf, f_otf2, table, clean=True):
         salad_CFF = salad.find('CFF')
         soup_CFF  = soup.find('CFF')
 
-        # Swap the values
+        salad_kern = salad.find('kern')
+        soup_kern  = soup.find('kern')
+
+        # Get the proper names for the table
+        ptable = {}
         for key, val in table.iteritems():
             if key == val:
                 continue
 
             if val in unichr(160):
                 val = nbsp_name
-            
+
             mtx_key = salad_mtx.find('mtx', {"name":key})
             mtx_val = soup_mtx.find('mtx', {"name":val})
 
@@ -111,6 +125,15 @@ def modify_font(f_otf, f_otf2, table, clean=True):
 
             if mtx_val is None:
                 raise KeyError("font missing character '%s'"%val)
+
+            # Now we know the name
+            ptable[key] = val
+
+        # Swap the values
+        for key, val in ptable.iteritems():
+
+            mtx_key = salad_mtx.find('mtx', {"name":key})
+            mtx_val = soup_mtx.find('mtx', {"name":val})
             
             # Swap the correct width, lsb
             mtx_key['width'] = int(mtx_val['width'])
@@ -122,6 +145,28 @@ def modify_font(f_otf, f_otf2, table, clean=True):
             # Swap the CharString
             contents = soup_CFF.find('CharString', {"name":val}).text
             salad_CFF.find('CharString', {"name":key}).string = contents
+
+        if soup_kern is None or is_kern==False:
+            soup_kern = bs4.BeautifulSoup("",'lxml')
+
+        for pair in soup_kern.find_all('pair'):
+            L, R = pair['l'], pair['r']
+            
+            is_L = L in ptable.values()
+            is_R = R in ptable.values()
+            
+            args = {'l':L, 'r':R}
+
+            if is_L and not is_R:
+                salad_kern.find('pair',args)['l'] = L
+                print "Kerning", pair['l']
+                
+            elif is_R and not is_L:
+                salad_kern.find('pair',args)['r'] = R
+
+            elif is_R and is_R:
+                salad_kern.find('pair',args)['l'] = L
+                salad_kern.find('pair',args)['r'] = R
             
         if clean:
             clean_font(salad, table, charmaps)
