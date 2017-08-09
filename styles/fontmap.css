@@ -32,6 +32,7 @@ textarea[type="text"]:focus {
 
 textarea[type="text"] {
     color:#757575;
+    font-weight:inherit;
     
     display: block;
     margin: 0;
