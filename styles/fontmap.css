@@ -2,8 +2,16 @@ body {
     background-color:#FFEDA8;
 }
 
+h1 {
+    font-family:"TheFontIsALie";
+    font-size:350%;
+}
+
+.modified{
+    color:#CD765B;
+}
+
 div.abscenter {
-    /*position:absolute;*/
     background-color:#92D0C1;
     color:#307183;
 
@@ -14,13 +22,23 @@ div.abscenter {
 
     margin:5%;
     letter-spacing: 0px;
-
     word-spacing: -5px;
+}
 
 
-    /*
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-*/
+textarea[type="text"]:focus {
+    outline: none;
+}
+
+textarea[type="text"] {
+    color:#757575;
+    
+    display: block;
+    margin: 0;
+    width: 100%;
+    font-family: "TheFontIsALie";
+    font-size: inherit;      
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
 }

@@ -1,46 +1,46 @@
 @font-face {
-           font-family: "Butler";
+           font-family: "TheFontIsALie";
            src:url(fonts/Butler_Medium.otf); 
 }
 
 @font-face {
-           font-family: "Butler_1";
+           font-family: "TheFontIsALie_1";
            src:url(fonts/Butler_Medium_m1.otf); 
 }
 
-font1 {font-family: "Butler_1";}
+font1 {font-family: "TheFontIsALie_1";}
 
 @font-face {
-           font-family: "Butler_2";
+           font-family: "TheFontIsALie_2";
            src:url(fonts/Butler_Medium_m2.otf); 
 }
 
-font2 {font-family: "Butler_2";}
+font2 {font-family: "TheFontIsALie_2";}
 
 @font-face {
-           font-family: "Butler_3";
+           font-family: "TheFontIsALie_3";
            src:url(fonts/Butler_Medium_m3.otf); 
 }
 
-font3 {font-family: "Butler_3";}
+font3 {font-family: "TheFontIsALie_3";}
 
 @font-face {
-           font-family: "Butler_4";
+           font-family: "TheFontIsALie_4";
            src:url(fonts/Butler_Medium_m4.otf); 
 }
 
-font4 {font-family: "Butler_4";}
+font4 {font-family: "TheFontIsALie_4";}
 
 @font-face {
-           font-family: "Butler_5";
+           font-family: "TheFontIsALie_5";
            src:url(fonts/Butler_Medium_m5.otf); 
 }
 
-font5 {font-family: "Butler_5";}
+font5 {font-family: "TheFontIsALie_5";}
 
 @font-face {
-           font-family: "Butler_6";
+           font-family: "TheFontIsALie_6";
            src:url(fonts/Butler_Medium_m6.otf); 
 }
 
-font6 {font-family: "Butler_6";}
+font6 {font-family: "TheFontIsALie_6";}
