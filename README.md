@@ -1,6 +1,6 @@
 # Font remapping demo
 
-http://thoppe.github.io/TheLieWithinTheFiction/index.html
+[Demo](http://thoppe.github.io/TheLieWithinTheFiction/index.html)
 
 ## Roadmap
 
