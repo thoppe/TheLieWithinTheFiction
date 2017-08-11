@@ -2,7 +2,7 @@ import bs4, os
 from src.multimap_code import translate_tables
 
 f_html  = "source.html"
-f_html2 = "demo.html"
+f_html2 = "index.html"
 
 with open(f_html) as FIN:
     soup = bs4.BeautifulSoup(FIN.read(), "html5lib")

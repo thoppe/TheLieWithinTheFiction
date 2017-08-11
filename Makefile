@@ -1,7 +1,7 @@
 all:
 	python fontlie.py
 view:
-	xdg-open demo.html
+	xdg-open index.html
 
 clean:
-	rm -vf fonts/*_m?.otf  demo.html *_fontface.css	
+	rm -vf fonts/*_m?.otf  index.html *_fontface.css	
