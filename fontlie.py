@@ -57,20 +57,21 @@ for block in soup.find_all("", search_dict):
     f_css = f_html2.replace('.html', '_fontface.css')
     with open(f_css, 'aw') as FOUT:
         FOUT.write(T.build_CSS()+'\n')
-        
-    # Add the header block
-    style_tag = soup.new_tag('link',
-                             rel='stylesheet',
-                             href=os.path.basename(f_css))
-    soup.find('head').insert(0, style_tag)
-
-    with open(f_html2,'w') as FOUT:
-        html_text = soup.encode_contents(formatter='html')
-        FOUT.write(html_text)
-
-    print "Output written to", f_html2
 
     offset += len(T.tables)
+        
+# Add the header block
+style_tag = soup.new_tag('link',
+                         rel='stylesheet',
+                         href=os.path.basename(f_css))
+soup.find('head').insert(0, style_tag)
+
+with open(f_html2,'w') as FOUT:
+    html_text = soup.encode_contents(formatter='html')
+    FOUT.write(html_text)
+
+print "Output written to", f_html2
+
 
 
 
