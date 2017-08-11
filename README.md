@@ -10,3 +10,9 @@ http://thoppe.github.io/TheLieWithinTheFiction/demo.html
 - [x] multi character
 - [x] handle spaces (word boundaries)
 - [x] handle newlines
+- [ ] handle multilines
+
+## Fonts used
+
+![](images/Helvetica_sample.png)
+![](images/Butler_sample.jpg)
