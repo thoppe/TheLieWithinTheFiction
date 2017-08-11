@@ -1,8 +1,9 @@
-import bs4, os
+import bs4, os, shutil
 from src.multimap_code import translate_tables
 
 f_html  = "source.html"
-f_html2 = "index.html"
+f_html2 = "docs/index.html"
+working_dir = os.path.dirname(f_html2)
 
 with open(f_html) as FIN:
     soup = bs4.BeautifulSoup(FIN.read(), "html5lib")
@@ -42,18 +43,20 @@ for block in soup.find_all("", search_dict):
     html = T.encode(text_visible, text_hidden)
     block.insert(0, html)
 
-    T.build_fonts()
-    #T.build_fonts(THREADS=1)
+    T.build_fonts(working_dir=working_dir)
+
+    # Copy base font
+    shutil.copyfile(f_otf, os.path.join(working_dir, f_otf))
     
     # Build the font-face remapping
     f_css = f_html2.replace('.html', '_fontface.css')
     with open(f_css, 'w') as FOUT:
         FOUT.write(T.build_CSS())
-    
+        
     # Add the header block
     style_tag = soup.new_tag('link',
                              rel='stylesheet',
-                             href=f_css)
+                             href=os.path.basename(f_css))
     soup.find('head').insert(0, style_tag)
 
     with open(f_html2,'w') as FOUT:

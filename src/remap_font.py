@@ -69,7 +69,8 @@ def clean_font(soup, table, charmaps):
     # Remove meta information (todo?)
     '''
 
-def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False):
+def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
+                working_dir='.'):
     print table
     font = ttLib.TTFont(f_otf)
     
@@ -188,9 +189,16 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False):
         cmd = 'ttx -q --recalc-timestamp -b {}'.format(f_xml2)
         subprocess.call(cmd, shell=True)
         f_out = f_xml2.replace('.ttx', '.otf')
-        
-        shutil.move(f_out,os.path.join(org_dir, f_otf2))
-        #os.system('bash')
+
+        f_final_save = os.path.join(org_dir, working_dir, f_otf2)
+
+        # Try to create the target directory if it doesn't exist
+        try:
+            os.makedirs(os.path.dirname(f_final_save))
+        except OSError:
+            pass
+        shutil.move(f_out, f_final_save)
+
         
     os.chdir(org_dir)
 

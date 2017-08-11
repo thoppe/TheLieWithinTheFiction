@@ -73,7 +73,7 @@ class translate_tables(object):
     def _get_fontname(self, key):
         return self.f_font.replace('.otf','_m{}.otf'.format(key))
 
-    def build_fonts(self, THREADS=-1, clean=True):
+    def build_fonts(self, working_dir='.', THREADS=-1, clean=True):
         # We could build the fonts in parallel...
         ITR = self.tables
         func = joblib.delayed(modify_font)
@@ -82,7 +82,9 @@ class translate_tables(object):
             MP(func(self.f_font,
                     self._get_fontname(key),
                     self.tables[key],
-                    clean) for key in ITR)
+                    clean=clean,
+                    working_dir=working_dir,
+            ) for key in ITR)
         
     def build_CSS(self, ):
         template1 = '''
