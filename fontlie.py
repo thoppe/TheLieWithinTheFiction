@@ -5,10 +5,15 @@ f_html  = "source.html"
 f_html2 = "docs/index.html"
 working_dir = os.path.dirname(f_html2)
 
+f_css = f_html2.replace('.html', '_fontface.css')
+if os.path.exists(f_css):
+    os.remove(f_css)
+
 with open(f_html) as FIN:
     soup = bs4.BeautifulSoup(FIN.read(), "html5lib")
 
 search_dict = {"data-hidden-text":True, "data-visible-text":True}
+offset = 0
 for block in soup.find_all("", search_dict):
 
     # Extract the info and clean the block
@@ -35,12 +40,12 @@ for block in soup.find_all("", search_dict):
         th.append(a1)
         tv.append(a2)
 
-    T = translate_tables(f_otf, font_family)
+    T = translate_tables(f_otf, font_family, offset=offset)
 
     text_hidden  = ''.join(th)
     text_visible = ''.join(tv)
-
     html = T.encode(text_visible, text_hidden)
+    
     block.insert(0, html)
 
     T.build_fonts(working_dir=working_dir)
@@ -50,8 +55,8 @@ for block in soup.find_all("", search_dict):
     
     # Build the font-face remapping
     f_css = f_html2.replace('.html', '_fontface.css')
-    with open(f_css, 'w') as FOUT:
-        FOUT.write(T.build_CSS())
+    with open(f_css, 'aw') as FOUT:
+        FOUT.write(T.build_CSS()+'\n')
         
     # Add the header block
     style_tag = soup.new_tag('link',
@@ -64,5 +69,10 @@ for block in soup.find_all("", search_dict):
         FOUT.write(html_text)
 
     print "Output written to", f_html2
+
+    offset += len(T.tables)
+
+
+
     
 

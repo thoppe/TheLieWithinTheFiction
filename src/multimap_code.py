@@ -5,12 +5,13 @@ from remap_font import modify_font
 
 class translate_tables(object):
 
-    def __init__(self, f_font, name):
+    def __init__(self, f_font, name, offset=0):
         self.tables = collections.defaultdict(dict)
         self.idx = 0
         self.font_tables = None
         self.name = name
         self.f_font = f_font
+        self.offset = offset
 
     def new_table(self):
         self.idx += 1
@@ -39,7 +40,7 @@ class translate_tables(object):
             tx, key = self.new_table()
             
         tx[a1] = a2
-        return key
+        return key + self.offset
 
     def encode(self, hidden_text, visible_text):
 
@@ -48,7 +49,7 @@ class translate_tables(object):
         current_idx = 0
     
         for a1,a2 in zip(visible_text, hidden_text):
-            key = self(a1,a2)           
+            key = self(a1,a2)
             #print a1, a2, key
 
             if key != current_idx:
@@ -71,6 +72,7 @@ class translate_tables(object):
         return soup
 
     def _get_fontname(self, key):
+        key += self.offset
         return self.f_font.replace('.otf','_m{}.otf'.format(key))
 
     def build_fonts(self, working_dir='.', THREADS=-1, clean=True):
@@ -101,9 +103,9 @@ class translate_tables(object):
         css.append(template1%(self.name, self.f_font))
 
         for key in self.tables:
-            namex = self.name+'_'+str(key)
+            namex = self.name+'_'+str(key+self.offset)
             css.append(template1%(namex, self._get_fontname(key)))
-            css.append(template2%(key, namex))
+            css.append(template2%(key+self.offset, namex))
             
         css = '\n\n'.join(css)
         return css           

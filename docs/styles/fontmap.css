@@ -4,11 +4,14 @@ body {
 
 h1 {
     font-family:"TheFontIsALie";
-    font-size:350%;
+    font-size:300%;
 }
 
 .modified{
     color:#CD765B;
+    
+    margin-bottom:0em;
+    margin-top:0em;
 }
 
 div.abscenter {

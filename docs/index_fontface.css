@@ -23,6 +23,10 @@ font2 {font-family: "TheFontIsALie_2";}
 }
 
 font3 {font-family: "TheFontIsALie_3";}
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Butler_Medium.otf); 
+}
 
 @font-face {
            font-family: "TheFontIsALie_4";
@@ -44,3 +48,42 @@ font5 {font-family: "TheFontIsALie_5";}
 }
 
 font6 {font-family: "TheFontIsALie_6";}
+
+@font-face {
+           font-family: "TheFontIsALie_7";
+           src:url(Butler_Medium_m7.otf); 
+}
+
+font7 {font-family: "TheFontIsALie_7";}
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Butler_Medium.otf); 
+}
+
+@font-face {
+           font-family: "TheFontIsALie_8";
+           src:url(Butler_Medium_m8.otf); 
+}
+
+font8 {font-family: "TheFontIsALie_8";}
+
+@font-face {
+           font-family: "TheFontIsALie_9";
+           src:url(Butler_Medium_m9.otf); 
+}
+
+font9 {font-family: "TheFontIsALie_9";}
+
+@font-face {
+           font-family: "TheFontIsALie_10";
+           src:url(Butler_Medium_m10.otf); 
+}
+
+font10 {font-family: "TheFontIsALie_10";}
+
+@font-face {
+           font-family: "TheFontIsALie_11";
+           src:url(Butler_Medium_m11.otf); 
+}
+
+font11 {font-family: "TheFontIsALie_11";}
