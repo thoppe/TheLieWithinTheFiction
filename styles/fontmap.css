@@ -43,3 +43,13 @@ textarea[type="text"] {
     box-shadow: none;
     border-radius: none;
 }
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: right;
+  font-family: "TheFontIsALie";
+}
