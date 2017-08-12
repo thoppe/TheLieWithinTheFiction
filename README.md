@@ -1,16 +1,9 @@
 # Font remapping demo
 
-[Demo](http://thoppe.github.io/TheLieWithinTheFiction/index.html)
+The goal is to hide text in plain sight. Does our experience differ from that of a computer? Find out with the 
 
-## Roadmap
+## [Demo](http://thoppe.github.io/TheLieWithinTheFiction/index.html)
 
-- [x] Basic font remap (proof of concept)
-- [x] Demo webpage
-- [x] minify fonts
-- [x] multi character
-- [x] handle spaces (word boundaries)
-- [x] handle newlines
-- [ ] handle multilines
 
 ## Fonts used
 
