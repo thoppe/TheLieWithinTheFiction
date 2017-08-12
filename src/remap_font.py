@@ -149,6 +149,7 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             # Now we know the name
             ptable[key] = val
 
+
         # Swap the values
         for key, val in ptable.iteritems():
 
@@ -159,8 +160,8 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             mtx_key['width'] = int(mtx_val['width'])
             mtx_key['lsb'] = int(mtx_val['lsb'])
 
-            if key == nbsp_name:
-                mtx_key['width'] = int(mtx_key['width']*1.15) 
+            #if key == nbsp_name:
+            #    mtx_key['width'] = int(mtx_key['width']*1.15) 
 
             # Swap the CharString
             contents = soup_CFF.find('CharString', {"name":val}).text
@@ -188,8 +189,8 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
                 salad_kern.find('pair',args)['l'] = L
                 salad_kern.find('pair',args)['r'] = R
             
-        if clean:
-            clean_font(salad, table, charmaps)
+        #if clean:
+        #    clean_font(salad, table, charmaps)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))

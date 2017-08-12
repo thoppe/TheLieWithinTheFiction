@@ -37,10 +37,6 @@ font4 {font-family: "TheFontIsALie_4";}
 }
 
 font5 {font-family: "TheFontIsALie_5";}
-@font-face {
-           font-family: "TheFontIsALie";
-           src:url(Bitter-Regular.otf); 
-}
 
 @font-face {
            font-family: "TheFontIsALie_6";
@@ -55,6 +51,10 @@ font6 {font-family: "TheFontIsALie_6";}
 }
 
 font7 {font-family: "TheFontIsALie_7";}
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Bitter-Regular.otf); 
+}
 
 @font-face {
            font-family: "TheFontIsALie_8";
@@ -90,10 +90,6 @@ font11 {font-family: "TheFontIsALie_11";}
 }
 
 font12 {font-family: "TheFontIsALie_12";}
-@font-face {
-           font-family: "TheFontIsALie";
-           src:url(Bitter-Regular.otf); 
-}
 
 @font-face {
            font-family: "TheFontIsALie_13";
@@ -108,6 +104,10 @@ font13 {font-family: "TheFontIsALie_13";}
 }
 
 font14 {font-family: "TheFontIsALie_14";}
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Bitter-Regular.otf); 
+}
 
 @font-face {
            font-family: "TheFontIsALie_15";
@@ -129,3 +129,24 @@ font16 {font-family: "TheFontIsALie_16";}
 }
 
 font17 {font-family: "TheFontIsALie_17";}
+
+@font-face {
+           font-family: "TheFontIsALie_18";
+           src:url(Bitter-Regular_m18.otf); 
+}
+
+font18 {font-family: "TheFontIsALie_18";}
+
+@font-face {
+           font-family: "TheFontIsALie_19";
+           src:url(Bitter-Regular_m19.otf); 
+}
+
+font19 {font-family: "TheFontIsALie_19";}
+
+@font-face {
+           font-family: "TheFontIsALie_20";
+           src:url(Bitter-Regular_m20.otf); 
+}
+
+font20 {font-family: "TheFontIsALie_20";}
