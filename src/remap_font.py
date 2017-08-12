@@ -189,8 +189,8 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
                 salad_kern.find('pair',args)['l'] = L
                 salad_kern.find('pair',args)['r'] = R
             
-        #if clean:
-        #    clean_font(salad, table, charmaps)
+        if clean:
+            clean_font(salad, table, charmaps)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))
