@@ -48,7 +48,7 @@ for block in soup.find_all("", search_dict):
     
     block.insert(0, html)
 
-    T.build_fonts(working_dir=working_dir)
+    T.build_fonts(working_dir=working_dir, THREADS=-1)
 
     # Copy base font
     shutil.copyfile(f_otf, os.path.join(working_dir, f_otf))

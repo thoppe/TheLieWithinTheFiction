@@ -80,7 +80,15 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             charmaps[unichr(val)] = key
 
     # nonbreakingspace is not always the same thing
-    nbsp_name = charmaps[unichr(160)]
+    try:
+        nbsp_name = charmaps[unichr(160)]
+    except KeyError:
+        charmaps[unichr(160)] = charmaps[' ']
+        nbsp_name = charmaps[unichr(160)]
+        #print ' ' in charmaps
+        #raise KeyError("Can't find a non-breaking space in the font!")
+
+    
 
     # Add the space proxy to the table
     for key,val in table.items():

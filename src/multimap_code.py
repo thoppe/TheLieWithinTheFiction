@@ -79,7 +79,9 @@ class translate_tables(object):
         # We could build the fonts in parallel...
         ITR = self.tables
         func = joblib.delayed(modify_font)
-
+        if THREADS == -1:
+            THREADS = len(ITR)
+        
         with joblib.Parallel(THREADS) as MP:
             MP(func(self.f_font,
                     self._get_fontname(key),
