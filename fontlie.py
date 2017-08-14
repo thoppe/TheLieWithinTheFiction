@@ -1,6 +1,8 @@
 import bs4, os, shutil
 from src.multimap_code import translate_tables
 
+FLAG_USE_NBSP = False
+
 f_html  = "source.html"
 f_html2 = "docs/index.html"
 working_dir = os.path.dirname(f_html2)
@@ -31,12 +33,15 @@ for block in soup.find_all("", search_dict):
     # Add nonbreaking spaces for overlap, spaces for overlap
     th, tv = [], []
     for a1, a2 in zip(text_hidden, text_visible):
-        if a1 == a2 == ' ':
-            a1 = a2 = ' '
-        elif a1 == ' ':
-            a1 = unichr(160)
-        elif a2 == ' ':
-            a2 = unichr(160)
+
+        if FLAG_USE_NBSP:
+            if a1 == a2 == ' ':
+                a1 = a2 = ' '
+            elif a1 == ' ':
+                a1 = unichr(160)
+            elif a2 == ' ':
+                a2 = unichr(160)
+        
         th.append(a1)
         tv.append(a2)
 
