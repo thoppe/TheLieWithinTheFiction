@@ -1,6 +1,21 @@
 body {
-    background-color:#2980B9;
+    background-color:#000000;
 }
+
+
+div.abscenter {
+    background-color:#000000;
+    color:#F6F6F6;
+
+    padding-top:1em;
+    padding-bottom:3em;
+    
+    padding-left:5%;
+    padding-right:5%;
+
+    margin:0em;
+}
+
 
 h1 {
     font-family:"TheFontIsALie";
@@ -8,7 +23,7 @@ h1 {
 }
 
 .modified{
-    color:#E74C3C;
+    color:#F6F6F6;
     
     margin-bottom:0em;
     margin-top:0em;
@@ -17,26 +32,13 @@ h1 {
     /* word-spacing: -0.10em; */
 }
 
-div.abscenter {
-    background-color:#ECF0F1;
-    color:#2C3E50;
-
-    padding-top:1em;
-    padding-bottom:3em;
-    
-    padding-left:5%;
-    padding-right:5%;
-
-    margin:3em;
-}
-
 
 textarea[type="text"]:focus {
     outline: none;
 }
 
 textarea[type="text"] {
-    color:#2C3E50;
+    color:#B90504;
     font-weight:inherit;
     
     display: block;

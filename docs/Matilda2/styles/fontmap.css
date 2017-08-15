@@ -1,5 +1,5 @@
 body {
-    background-color:#2980B9;
+    background-color:#A04F62;
 }
 
 h1 {
@@ -8,8 +8,8 @@ h1 {
 }
 
 .modified{
-    color:#E74C3C;
-    
+    color:#A04F62;
+
     margin-bottom:0em;
     margin-top:0em;
     font-weight:normal;
@@ -18,8 +18,8 @@ h1 {
 }
 
 div.abscenter {
-    background-color:#ECF0F1;
-    color:#2C3E50;
+    background-color:#E6D7B8;
+    color:#4F4C4F;
 
     padding-top:1em;
     padding-bottom:3em;
@@ -36,7 +36,8 @@ textarea[type="text"]:focus {
 }
 
 textarea[type="text"] {
-    color:#2C3E50;
+    color:#4F4C4F;
+
     font-weight:inherit;
     
     display: block;
