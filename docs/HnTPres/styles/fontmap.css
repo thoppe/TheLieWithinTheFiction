@@ -1,0 +1,29 @@
+.modified {
+    font-family:"TheFontIsALie";
+    font-size:10em;
+    color:#E74C3C;
+
+    margin:10%;
+}
+
+textarea[type="text"]:focus {
+    outline: none;
+}
+
+textarea {
+    color:#2C3E50;    
+    display: block;
+    font-weight:inherit;
+    font-size:inherit;
+    font-family:inherit;
+
+    width: 100%;
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}

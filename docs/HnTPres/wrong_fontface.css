@@ -1,0 +1,11 @@
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Butler_Medium.otf); 
+}
+
+@font-face {
+           font-family: "TheFontIsALie_1";
+           src:url(Butler_Medium_m1.otf); 
+}
+
+font1 {font-family: "TheFontIsALie_1";}
