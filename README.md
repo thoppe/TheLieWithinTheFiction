@@ -1,11 +1,15 @@
 # Font remapping demo
 
-The goal is to hide text in plain sight. Does our experience differ from that of a computer? Find out with the 
+The goal is to hide text in plain sight. Does our experience differ from that of a computer?
 
-## [Demo](http://thoppe.github.io/TheLieWithinTheFiction/index.html)
+[What is reality?](http://thoppe.github.io/TheLieWithinTheFiction/index.html)
 
+## Poems by Matilda Young
 
-## Fonts used
+[Exit Lines](https://thoppe.github.io/TheLieWithinTheFiction/Matilda1/index.html)
+[My Tiny Velociraptor](https://thoppe.github.io/TheLieWithinTheFiction/Matilda2/index.html)
+[Terrence/Justine](https://thoppe.github.io/TheLieWithinTheFiction/Matilda3/index.html)
 
-![](images/Helvetica_sample.png)
-![](images/Butler_sample.jpg)
+%## Fonts used
+%![](images/Helvetica_sample.png)
+%![](images/Butler_sample.jpg)
