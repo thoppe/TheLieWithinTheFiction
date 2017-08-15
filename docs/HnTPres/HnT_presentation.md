@@ -98,12 +98,23 @@
 .wrap
   ## Tricky bits:
   <br>
-   @h3 .wrap
+   @h4 .wrap
      + Multi-maps -> multiple fonts
      + Kerning
      + Ligatures
      + Spaces: one long word or non-breaking spaces?
-     + Firebox/Opera vs Chrome
+     + Firefox/Opera vs Chrome
+     
+<br>
+.wrap
+  ## Usage?
+  <br>
+   @h4 .wrap
+     + Stenography
+     + Preventing copying and pasting
+     + Hiding text from the computer
+     + Fooling automated text-analysis
+     + Art
    
 ---- .bg-black
 
