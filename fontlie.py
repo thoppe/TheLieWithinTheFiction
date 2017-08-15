@@ -1,10 +1,20 @@
+"""Creates lies within the fiction. Remaps fonts.
+
+Usage:
+   fontlie.py <f_in> <f_out> [--use_nbsp] [options]
+
+Options:
+   --use_nbsp   Insert non-breaking spaces [default: False].
+"""
+
 import bs4, os, shutil
+from docopt import docopt
 from src.multimap_code import translate_tables
 
-FLAG_USE_NBSP = False
+CLI = docopt(__doc__)
 
-f_html  = "source.html"
-f_html2 = "docs/index.html"
+f_html  = CLI["<f_in>"]
+f_html2 = CLI["<f_out>"]
 working_dir = os.path.dirname(f_html2)
 
 f_css = f_html2.replace('.html', '_fontface.css')
@@ -34,7 +44,7 @@ for block in soup.find_all("", search_dict):
     th, tv = [], []
     for a1, a2 in zip(text_hidden, text_visible):
 
-        if FLAG_USE_NBSP:
+        if CLI["--use_nbsp"]:
             if a1 == a2 == ' ':
                 a1 = a2 = ' '
             elif a1 == ' ':
