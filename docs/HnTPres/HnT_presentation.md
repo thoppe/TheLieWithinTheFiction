@@ -35,7 +35,7 @@
   + embeds, ajax, ...
   + <br><br>
   
-  + Fonts can't lie, right?
+  + Fonts can't lie, [right](wrong.html)?
 
 ---- .bg-black
 
