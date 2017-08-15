@@ -68,7 +68,9 @@ class translate_tables(object):
             else:
                 soup.append(a1)
 
-        soup.append(current_tag)
+        if current_tag is not None:
+            soup.append(current_tag)
+            
         return soup
 
     def _get_fontname(self, key):
@@ -80,7 +82,7 @@ class translate_tables(object):
         ITR = self.tables
         func = joblib.delayed(modify_font)
         if THREADS == -1:
-            THREADS = len(ITR)
+            THREADS = max(1, len(ITR))
         
         with joblib.Parallel(THREADS) as MP:
             MP(func(self.f_font,
