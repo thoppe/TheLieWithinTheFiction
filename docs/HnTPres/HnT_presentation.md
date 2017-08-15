@@ -85,7 +85,6 @@
  
 ---- .bg-white
 
-
 .wrap @h1
    + LOL nope.
    + That wasn't the letter "h".
@@ -94,6 +93,22 @@
    + <br><br>
    + _Neither does the computer._
 
+---- .bg-white      
+
+.wrap
+  ## Tricky bits:
+  <br>
+   @h3 .wrap
+     + Multi-maps -> multiple fonts
+     + Kerning
+     + Ligatures
+     + Spaces: one long word or non-breaking spaces?
+     + Firebox/Opera vs Chrome
+   
+---- .bg-black
+
+.wrap
+ .text-data Full [example](../index.html)
 
 ----- .size-80 .wrap
 
