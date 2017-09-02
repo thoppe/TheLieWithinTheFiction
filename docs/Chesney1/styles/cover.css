@@ -31,9 +31,15 @@ html {
 div.abscenter {
     background-color:#222222;
     color:#FEFCFD;
+    margin-bottom:0;
+    padding-bottom:1em;
 }
 
 .modified {
     color:#8DC4C1;
     font-size:150%;
+}
+
+textarea[type="text"] {
+    margin-bottom:1.25em;
 }
