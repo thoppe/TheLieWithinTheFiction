@@ -1,0 +1,18 @@
+@font-face {
+           font-family: "TheFontIsALie";
+           src:url(Bitter-Regular.otf); 
+}
+
+@font-face {
+           font-family: "TheFontIsALie_1";
+           src:url(Bitter-Regular_m1.otf); 
+}
+
+font1 {font-family: "TheFontIsALie_1";}
+
+@font-face {
+           font-family: "TheFontIsALie_2";
+           src:url(Bitter-Regular_m2.otf); 
+}
+
+font2 {font-family: "TheFontIsALie_2";}

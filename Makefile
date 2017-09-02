@@ -1,4 +1,7 @@
 all:
+	echo "Choose a style to run"
+
+example:
 	python fontlie.py source.html docs/index.html
 
 M1:
@@ -9,6 +12,9 @@ M2:
 
 M3:
 	python fontlie.py Matilda3.html docs/Matilda3/index.html --use_nbsp
+
+C1:
+	python fontlie.py Chesney1.html docs/Chesney1/index.html --use_nbsp
 
 view:
 	xdg-open docs/index.html

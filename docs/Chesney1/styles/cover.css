@@ -1,0 +1,17 @@
+@font-face {
+           font-family: "MeatLoaf";
+           src:url(../bradley_pro.otf); 
+}
+      
+.titleh1 {
+    font-family:"MeatLoaf";
+    font-size:500%;
+    font-weight:normal;
+    line-height:0;
+}
+
+.titleh2 {
+    font-family:"MeatLoaf";
+    font-size:200%;
+    font-weight:normal;
+}

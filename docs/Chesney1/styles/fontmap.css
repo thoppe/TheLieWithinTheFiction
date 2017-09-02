@@ -1,0 +1,70 @@
+body {
+    background-color:#413D3D;
+}
+
+h1 {
+    font-family:"TheFontIsALie";
+    font-size:180%;
+}
+
+.modified{
+    color:#040004;
+    
+    margin-bottom:0em;
+    margin-top:0em;
+    font-weight:normal;
+    padding:0;
+    /* word-spacing: -0.10em; */
+}
+
+div.abscenter {
+    background-color:#FEDB8C;
+    color:#FA023C;
+
+    padding-top:1em;
+    padding-bottom:3em;
+    
+    padding-left:5%;
+    padding-right:5%;
+
+    margin:3em;
+}
+
+
+textarea[type="text"]:focus {
+    outline: none;
+}
+
+textarea[type="text"] {
+    color:#FA023C;
+    font-weight:inherit;
+    
+    display: block;
+    margin-right:0;
+    margin-left:0;
+    margin-top:.25em;
+    
+    width: 100%;
+    font-family: "TheFontIsALie";
+    font-size: inherit;      
+    appearance: none;
+    box-shadow: none;
+    border-radius: none;
+}
+
+.footer {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: right;
+  color:#ECF0F1;
+  font-family: "TheFontIsALie";
+}
+.footer a:visited {
+  color:inherit;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
