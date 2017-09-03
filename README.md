@@ -13,3 +13,6 @@ The goal is to hide text in plain sight. Does our experience differ from that of
 + [My Tiny Velociraptor](https://thoppe.github.io/TheLieWithinTheFiction/Matilda2/index.html)
 + [Terrence/Justine](https://thoppe.github.io/TheLieWithinTheFiction/Matilda3/index.html)
 
+## Poems by Chesney Fowler
+
++ [This](https://thoppe.github.io/TheLieWithinTheFiction/Chesney1/index.html)
