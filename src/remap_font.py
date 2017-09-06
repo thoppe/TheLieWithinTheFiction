@@ -8,6 +8,8 @@ import fontTools
 from fontTools import ttLib
 from tqdm import tqdm
 
+unicode_space_idx1 = 8288
+unicode_space_idx2 = 8288
 
 def clean_font(soup, table, charmaps):
 
@@ -17,6 +19,7 @@ def clean_font(soup, table, charmaps):
     # Always save the .notdef
     keep_names.append('.notdef')
     keep_names.append('NULL')
+    keep_names.append('space')
     
     # Keep chars with kern information
     for item in soup.find('GPOS').find_all('Glyph', {"value":True}):
@@ -63,9 +66,7 @@ def clean_font(soup, table, charmaps):
 
 
     '''
-
-        # We could clean the kerning information too
-
+    # We could clean the kerning information too
     # Remove meta information (todo?)
     '''
 
@@ -81,11 +82,10 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
 
     # nonbreakingspace is not always the same thing
     try:
-        nbsp_name = charmaps[unichr(160)]
+        nbsp_name = charmaps[unichr(8194)]
     except KeyError:
-        charmaps[unichr(160)] = charmaps[' ']
-        nbsp_name = charmaps[unichr(160)]
-        #print ' ' in charmaps
+        charmaps[unichr(8194)] = charmaps[' ']
+        nbsp_name = charmaps[unichr(8194)]
         #raise KeyError("Can't find a non-breaking space in the font!")
 
     
@@ -124,7 +124,7 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             if key == val:
                 continue
 
-            if val in unichr(160):
+            if val in unichr(8194):
                 val = nbsp_name
 
             mtx_key = salad_mtx.find('mtx', {"name":key})
@@ -189,8 +189,8 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
                 salad_kern.find('pair',args)['l'] = L
                 salad_kern.find('pair',args)['r'] = R
             
-        if clean:
-            clean_font(salad, table, charmaps)
+        #if clean:
+        #    clean_font(salad, table, charmaps)
 
         with open(f_xml2, 'wb') as FOUT:
             FOUT.write(salad.prettify('utf-8'))
