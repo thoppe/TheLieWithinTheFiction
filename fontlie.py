@@ -10,10 +10,7 @@ Options:
 import bs4, os, shutil
 from docopt import docopt
 from src.multimap_code import translate_tables
-
-unicode_space_idx1 = 8194
-unicode_space_idx2 = 8288
-
+from src.remap_font import unicode_space_idx1, unicode_space_idx2
 
 CLI = docopt(__doc__)
 
@@ -54,7 +51,7 @@ for block in soup.find_all("", search_dict):
             elif a1 == ' ':
                 a1 = unichr(unicode_space_idx1)
             elif a2 == ' ':
-                a2 = unichr(unicode_space_idx2)
+                a2 = unichr(unicode_space_idx1)
         
         th.append(a1)
         tv.append(a2)
@@ -67,7 +64,7 @@ for block in soup.find_all("", search_dict):
     
     block.insert(0, html)
 
-    T.build_fonts(working_dir=working_dir, THREADS=1)
+    T.build_fonts(working_dir=working_dir, THREADS=-1)
 
     # Copy base font
     shutil.copyfile(f_otf, os.path.join(working_dir, f_otf))

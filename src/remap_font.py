@@ -8,8 +8,8 @@ import fontTools
 from fontTools import ttLib
 from tqdm import tqdm
 
-unicode_space_idx1 = 8288
-unicode_space_idx2 = 8288
+unicode_space_idx1 = 160
+unicode_space_idx2 = None
 
 def clean_font(soup, table, charmaps):
 
@@ -81,13 +81,11 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             charmaps[unichr(val)] = key
 
     # nonbreakingspace is not always the same thing
-    try:
-        nbsp_name = charmaps[unichr(8194)]
-    except KeyError:
-        charmaps[unichr(8194)] = charmaps[' ']
-        nbsp_name = charmaps[unichr(8194)]
-        #raise KeyError("Can't find a non-breaking space in the font!")
+    U1 = unichr(unicode_space_idx1)
+    if U1 not in charmaps:
+        charmaps[U1] = charmaps[' ']
 
+    nbsp_name = charmaps[U1]
     
 
     # Add the space proxy to the table
@@ -124,7 +122,7 @@ def modify_font(f_otf, f_otf2, table, clean=True, is_kern=False,
             if key == val:
                 continue
 
-            if val in unichr(8194):
+            if val in unichr(unicode_space_idx1):
                 val = nbsp_name
 
             mtx_key = salad_mtx.find('mtx', {"name":key})
